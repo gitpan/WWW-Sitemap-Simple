@@ -3,6 +3,7 @@ abstract: 'simple sitemap builder'
 author:
   - 'Dai Okabayashi <bayashi@cpan.org>'
 build_requires:
+  File::Temp: 0
   Test::More: 0.88
   Test::Output: 0
 configure_requires:
@@ -17,14 +18,17 @@ name: WWW-Sitemap-Simple
 provides:
   WWW::Sitemap::Simple:
     file: lib/WWW/Sitemap/Simple.pm
-    version: 0.01
+    version: 0.02
 requires:
   Carp: 0
   Class::Accessor::Lite: 0.05
+  Compress::Zlib: 0
   Digest::MD5: 0
+  IO::File: 0
+  IO::Zlib: 0
   perl: 5.008001
 resources:
   bugtracker: http://github.com/bayashi/WWW-Sitemap-Simple/issues
   license: http://dev.perl.org/licenses/
   repository: http://github.com/bayashi/WWW-Sitemap-Simple
-version: 0.01
+version: 0.02

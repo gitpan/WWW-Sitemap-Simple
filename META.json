@@ -16,6 +16,7 @@
    "prereqs" : {
       "build" : {
          "requires" : {
+            "File::Temp" : "0",
             "Test::More" : "0.88",
             "Test::Output" : "0"
          }
@@ -29,7 +30,10 @@
          "requires" : {
             "Carp" : "0",
             "Class::Accessor::Lite" : "0.05",
+            "Compress::Zlib" : "0",
             "Digest::MD5" : "0",
+            "IO::File" : "0",
+            "IO::Zlib" : "0",
             "perl" : "5.008001"
          }
       }
@@ -37,7 +41,7 @@
    "provides" : {
       "WWW::Sitemap::Simple" : {
          "file" : "lib/WWW/Sitemap/Simple.pm",
-         "version" : "0.01"
+         "version" : "0.02"
       }
    },
    "release_status" : "stable",
@@ -52,5 +56,5 @@
          "url" : "http://github.com/bayashi/WWW-Sitemap-Simple"
       }
    },
-   "version" : "0.01"
+   "version" : "0.02"
 }

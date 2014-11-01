@@ -9,7 +9,7 @@ use Class::Accessor::Lite (
     ro  => [qw/ url /],
 );
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 my $DEFAULT_XMLNS  = 'http://www.sitemaps.org/schemas/sitemap/0.9';
 my $DEFAULT_INDENT = "\t";
@@ -29,9 +29,12 @@ sub new {
         indent => $DEFAULT_INDENT,
         fatal  => 1,
         %args,
-        count => 0,
         url => +{},
     }, $class;
+}
+
+sub count {
+    return scalar( keys %{$_[0]->url} );
 }
 
 sub add {
@@ -39,16 +42,16 @@ sub add {
 
     my $id = $self->get_id($url);
 
+    return $id if exists $self->url->{$id};
+
     $self->url->{$id} = {
         %{$params || +{}},
         loc => $url,
     };
 
-    $self->{count}++;
-    if ($self->fatal && $self->{count} > $LIMIT_URL_COUNT) {
+    if ($self->fatal && $self->count > $LIMIT_URL_COUNT) {
         croak "too many URL added: no more than $LIMIT_URL_COUNT URLs";
     }
-
 
     return $id;
 }
@@ -56,7 +59,7 @@ sub add {
 sub add_params {
     my ($self, $id, $params) = @_;
 
-    croak "key is not exists: $id" unless exists $self->{url}{$id};
+    croak "key is not exists: $id" unless exists $self->url->{$id};
 
     for my $key (@KEYS) {
         $self->url->{$id}{$key} = $params->{$key} if exists $params->{$key};
@@ -245,6 +248,33 @@ get an id for calling add_params method.
 =head2 write([$file|$fh|$IO_OBJ])
 
 write sitemap. By default, put sitemap to STDOUT.
+
+=head2 urlset($hash)
+
+get or set the urlset attribute as hash.
+
+    my $sm = WWW::Sitemap::Simple->new;
+    $sm->urlset({
+        'xmlns' => "http://www.sitemaps.org/schemas/sitemap/0.9",
+        'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+        'xsi:schemaLocation' => 'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd',
+    });
+
+=head2 indent($string)
+
+get or set indent strings
+
+=head2 fatal($boolean)
+
+get or set boolean value for croaking
+
+=head2 url
+
+get all url hash lists
+
+=head2 count
+
+get a count of url
 
 
 =head1 CAVEAT

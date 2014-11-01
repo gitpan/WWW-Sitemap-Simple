@@ -8,6 +8,12 @@ use WWW::Sitemap::Simple;
 {
     my $sm = WWW::Sitemap::Simple->new;
     is ref($sm), 'WWW::Sitemap::Simple';
+    is $sm->count, 0;
+    is $sm->indent, "\t";
+    is_deeply $sm->url, +{};
+    is_deeply $sm->urlset, +{
+        xmlns => 'http://www.sitemaps.org/schemas/sitemap/0.9',
+    };
 }
 
 {
@@ -24,6 +30,25 @@ use WWW::Sitemap::Simple;
 </urlset>
 _XML_
         'basic'
+    );
+}
+
+{
+    my $sm = WWW::Sitemap::Simple->new;
+    my $id = $sm->add("http://rebuild.fm/");
+    my $id_again = $sm->add("http://rebuild.fm/");
+    is $id, $id_again, 'add twice';
+    is $sm->count, 1, 'count up only once';
+    stdout_is(
+        sub { $sm->write; },
+        <<'_XML_',
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	<url>
+		<loc>http://rebuild.fm/</loc>
+	</url>
+</urlset>
+_XML_
     );
 }
 
@@ -49,6 +74,8 @@ _XML_
 _XML_
         'add url'
     );
+
+    is $sm->count, 2;
 }
 
 {

@@ -18,7 +18,7 @@ name: WWW-Sitemap-Simple
 provides:
   WWW::Sitemap::Simple:
     file: lib/WWW/Sitemap/Simple.pm
-    version: 0.04
+    version: 0.05
 requires:
   Carp: 0
   Class::Accessor::Lite: 0.05
@@ -31,4 +31,4 @@ resources:
   bugtracker: http://github.com/bayashi/WWW-Sitemap-Simple/issues
   license: http://dev.perl.org/licenses/
   repository: http://github.com/bayashi/WWW-Sitemap-Simple
-version: 0.04
+version: 0.05
